@@ -19,7 +19,8 @@ class DesignController extends Controller
 
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,'. $id],
-            'description' => ['required', 'string', 'min:20', 'max:140']
+            'description' => ['required', 'string', 'min:20', 'max:140'],
+             'tags' => ['required']
         ]);
 
         // update the images
@@ -29,6 +30,9 @@ class DesignController extends Controller
             'slug' => Str::slug($request->title), //slug auto generate
             'is_live' => ! $design->upload_successful ? false : $request->is_live // is publish or not
         ]);
+
+        // apply the tags
+        $design->retag($request->tags);
 
         return new DesignResource($design); // retturn custom @ selected response (attribute)
     }
