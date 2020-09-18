@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Verified;
 use App\Providers\RouteServiceProvider;
 
 class VerificationController extends Controller
@@ -27,7 +29,6 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -53,6 +54,37 @@ class VerificationController extends Controller
 
         return response()->json([
             "message" => "Email successfully verified"
+        ], 200);
+    }
+
+    public function resend(Request $request)
+    {
+        $this->validate($request, [
+            'email' => ['email', 'required']
+        ]);
+
+        // identify user email
+        $user = User::where('email', $request->email)->first();
+
+        // no user with the email
+        if(! $user){
+            return response()->json(["errors" => [
+                "email" => "No user could be found with this email address"
+            ]], 422);
+        }
+
+        // already verified the email
+        if($user->hasVerifiedEmail()){
+            return response()->json(["errors" => [
+                "message" => "Email address already verified"
+            ]], 422);
+        }
+
+        // verify email on user models
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            "message" => "Verification link resent"
         ], 200);
     }
 }
