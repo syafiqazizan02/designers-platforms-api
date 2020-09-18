@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Notifications\VerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable, SpatialTrait;
 
@@ -31,7 +32,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $spatialFields = [
         'location',
-    ];	   
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -70,4 +71,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // verify email form notification
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+
 }
