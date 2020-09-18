@@ -79,4 +79,10 @@ class LoginController extends Controller
             $this->username() => "Invalid credentials"
         ]);
     }
+
+    public function logout()
+    {
+        $this->guard()->logout();
+        return response()->json(['message' => 'Logged out successfully!']);
+    }
 }
