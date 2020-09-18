@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -50,6 +51,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+         // AuthorizationException JSON
+         if($exception instanceof AuthorizationException){
+            if($request->expectsJson()){
+                return response()->json(["errors" => [
+                    "message" => "You are not authorized to access this resource"
+                ]], 403);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

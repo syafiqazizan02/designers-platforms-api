@@ -13,6 +13,8 @@ class DesignController extends Controller
     {
         $design = Design::findOrFail($id); // update by current user
 
+        $this->authorize('update', $design); // make auth first with design policy @ update
+
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,'. $id],
             'description' => ['required', 'string', 'min:20', 'max:140']
