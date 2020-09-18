@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class DesignController extends Controller
 {
+    public function index() // get all from design database return to resource collection
+    {
+        $designs = Design::all();
+        return DesignResource::collection($designs);
+    }
+
     public function update(Request $request, $id)
     {
         $design = Design::findOrFail($id); // update by current user
