@@ -38,4 +38,18 @@ class SettingsController extends Controller
         return new UserResource($user);
     }
 
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'current_password' => ['required', new MatchOldPassword],
+            'password' => ['required', 'confirmed', 'min:6', new CheckSamePassword],
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json(['message' => 'Password updated'], 200);
+    }
+
 }
