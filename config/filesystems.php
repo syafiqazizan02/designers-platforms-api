@@ -57,9 +57,9 @@ return [
 
         // local disk
         'tmp' => [
-            'drive' => 'local',
+            'driver' => 'local',
             'root' => storage_path(),
-            "url" => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public'
         ],
 
