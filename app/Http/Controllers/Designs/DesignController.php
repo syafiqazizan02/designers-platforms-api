@@ -9,6 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DesignResource;
 use App\Repositories\Contracts\IDesign;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\Eloquent\Criteria\{
+    LatestFirst,
+    IsLive
+};
 
 class DesignController extends Controller
 {
@@ -21,7 +25,14 @@ class DesignController extends Controller
 
     public function index() // get all from design database return to resource collection
     {
-        $designs =  $this->designs->all(); // implement design repository
+        // $designs =  $this->designs->all(); // implement design repository
+
+        // group by cateria function
+        $designs = $this->designs->withCriteria([
+            new LatestFirst(),
+            new IsLive()
+        ])->all();
+
         return DesignResource::collection($designs);
     }
 

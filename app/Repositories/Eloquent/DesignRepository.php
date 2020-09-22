@@ -18,4 +18,9 @@ class DesignRepository extends BaseRepository implements IDesign
         $design = $this->find($id);
         $design->retag($data);
     }
+
+    public function allLive() // function to select is_live == 1
+    {
+        return $this->model->where('is_live', true)->get(); // override model method
+    }
 }
