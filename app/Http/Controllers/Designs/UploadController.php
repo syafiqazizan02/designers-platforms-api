@@ -5,9 +5,17 @@ namespace App\Http\Controllers\Designs;
 use App\Jobs\UploadImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Contracts\IDesign;
 
 class UploadController extends Controller
 {
+    protected $designs;
+
+    public function __construct(IDesign $designs)
+    {
+        $this->designs = $designs;
+    }
+
     public function upload(Request $request)
     {
         // validate the request
@@ -27,7 +35,8 @@ class UploadController extends Controller
         $tmp = $image->storeAs('uploads/original', $filename, 'tmp');
 
         // create the database record for the design
-        $design = auth()->user()->designs()->create([
+        $design = $this->designs->create([
+            'user_id' => auth()->id(),
             'image' => $filename,
             'disk' => config('site.upload_disk')
         ]);

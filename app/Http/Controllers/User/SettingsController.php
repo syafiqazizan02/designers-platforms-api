@@ -7,10 +7,18 @@ use App\Rules\MatchOldPassword;
 use App\Rules\CheckSamePassword;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Repositories\Contracts\IUser;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 class SettingsController extends Controller
 {
+    protected $users;
+
+    public function __construct(IUser $users)
+    {
+        $this->users = $users;
+    }
+
     public function updateProfile(Request $request)
     {
         $user = auth()->user();
