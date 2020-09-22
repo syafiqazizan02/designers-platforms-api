@@ -25,9 +25,16 @@ class DesignController extends Controller
         return DesignResource::collection($designs);
     }
 
+    public function findDesign($id) // get designs by id
+    {
+        $design = $this->designs->find($id);
+        return new DesignResource($design);
+    }
+
     public function update(Request $request, $id)
     {
-        $design = Design::findOrFail($id); // update by current user
+        // apply method find($id) from BaseRepository
+        $design = $this->designs->find($id); // update by current user
 
         $this->authorize('update', $design); // make auth first with design policy @ update
 
@@ -38,7 +45,7 @@ class DesignController extends Controller
         ]);
 
         // update the images
-        $design->update([
+        $design = $this->designs->update($id, [  // apply method ($id, array $data) from BaseRepository
             'title' => $request->title,
             'description' => $request->description,
             'slug' => Str::slug($request->title), //slug auto generate
@@ -46,14 +53,15 @@ class DesignController extends Controller
         ]);
 
         // apply the tags
-        $design->retag($request->tags);
+        $this->designs->applyTags($id, $request->tags);
 
         return new DesignResource($design); // retturn custom @ selected response (attribute)
     }
 
     public function destroy($id)
     {
-        $design = Design::findOrFail($id); // delete by current user
+        // apply method find($id) from BaseRepository
+        $design = $this->designs->find($id); // delete by current user
 
         $this->authorize('delete', $design); // make auth first with design policy @ delete
 
@@ -65,7 +73,8 @@ class DesignController extends Controller
             }
         }
 
-        $design->delete();
+        // must delete in local disk then delete db
+        $this->designs->delete($id);
 
         return response()->json(['message' => 'Record deleted'], 200);
     }
