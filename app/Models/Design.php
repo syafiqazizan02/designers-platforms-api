@@ -29,6 +29,13 @@ class Design extends Model
         return $this->belongsTo(User::class);
     }
 
+    // many comments for designs
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+                ->orderBy('created_at', 'asc');
+    }
+
     public function getImagesAttribute() // image slugs
     {
         return [

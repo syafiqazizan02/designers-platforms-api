@@ -91,4 +91,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(Design::class);
     }
 
+    // user have many comments
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }
