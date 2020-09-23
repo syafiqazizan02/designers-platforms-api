@@ -19,8 +19,14 @@ class DesignRepository extends BaseRepository implements IDesign
         $design->retag($data);
     }
 
-    public function allLive() // function to select is_live == 1
+    public function addComment($designId, array $data) // pass design_id & data to load
     {
-        return $this->model->where('is_live', true)->get(); // override model method
+        // get the design for which we want to create a comment
+        $design = $this->find($designId);
+
+        // create the comment for the design
+        $comment = $design->comments()->create($data);
+
+        return $comment;
     }
 }
