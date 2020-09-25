@@ -13,6 +13,7 @@ class Design extends Model
 
     protected $fillable=[
         'user_id',
+        'team_id',
         'image',
         'title',
         'description',
@@ -35,6 +36,11 @@ class Design extends Model
     {
         return $this->morphMany(Comment::class, 'commentable')
                 ->orderBy('created_at', 'asc');
+    }
+
+    // one design one team
+    public function team(){
+        return $this->belongsTo(Team::class);
     }
 
     public function getImagesAttribute() // image slugs
