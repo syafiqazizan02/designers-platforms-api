@@ -46,4 +46,55 @@ class TeamsController extends Controller
 
         return new TeamResource($team);
     }
+
+    /**
+    * Update team information
+    */
+    public function update(Request $request, $id)
+    {
+        $team = $this->teams->find($id);
+        $this->authorize('update', $team); // refer update() teams policy
+
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:80', 'unique:teams,name,'.$id]
+        ]);
+
+        $team = $this->teams->update($id, [
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ]);
+
+        return new TeamResource($team);
+    }
+
+    /**
+     * Find a team by its ID
+     */
+    public function findById($id)
+    {
+        $team = $this->teams->find($id);
+        return new TeamResource($team);
+    }
+
+    /**
+    * Get the teams that the current user belongs to
+    */
+    public function fetchUserTeams()
+    {
+        $teams = $this->teams->fetchUserTeams();
+        return TeamResource::collection($teams);
+    }
+
+    /**
+    * Destroy (delete) a team
+    */
+    public function destroy($id)
+    {
+        $team = $this->teams->find($id);
+        $this->authorize('delete', $team); // refer delete() teams policy
+
+        $team->delete();
+
+        return response()->json(['message' => 'Deleted'], 200);
+    }
 }
