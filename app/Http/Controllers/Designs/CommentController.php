@@ -33,5 +33,31 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
+    public function update(Request $request, $id)
+    {
+        $comment = $this->comments->find($id);
+        $this->authorize('update', $comment); // refer update() on commnet policy
 
+        $this->validate($request, [
+            'body' => ['required']
+        ]);
+
+        // refer update() IBase
+        $comment = $this->comments->update($id, [
+            'body' => $request->body
+        ]);
+
+        return new CommentResource($comment);
+    }
+
+    public function destroy($id)
+    {
+        $comment = $this->comments->find($id);
+        $this->authorize('delete', $comment); // refer delete() on commnet policy
+
+        // refer delete() IBase
+        $this->comments->delete($id);
+        
+        return response()->json(['message' => 'Item deleted'], 200);
+    }
 }
