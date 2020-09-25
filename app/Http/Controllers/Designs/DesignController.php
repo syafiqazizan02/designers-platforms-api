@@ -13,6 +13,7 @@ use App\Repositories\Eloquent\Criteria\{
     LatestFirst,
     IsLive,
     // ForUser
+    EagerLoad
 };
 
 class DesignController extends Controller
@@ -31,6 +32,7 @@ class DesignController extends Controller
             new LatestFirst(),
             new IsLive(),
             // new ForUser()
+            new EagerLoad(['user', 'comments'])
         ])->all();
 
         return DesignResource::collection($designs);

@@ -36,8 +36,8 @@ class DesignResource extends JsonResource
                 'updated_at_human' => $this->updated_at->diffForHumans(),
                 'updated_at' => $this->updated_at
             ],
-            'comments' => CommentResource::collection($this->comments), // collection for comments
-            'user' => new UserResource($this->user) // collection for users
+            'comments' => CommentResource::collection($this->whenLoaded('comments')), // collection for comments
+            'user' => new UserResource($this->whenLoaded('user')) // collection for users
         ];
     }
 }
