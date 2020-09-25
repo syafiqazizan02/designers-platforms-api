@@ -51,4 +51,16 @@ class Team extends Model
                     ->where('user_id', $user->id)
                     ->first() ? true : false;  // if has record is true, if no record is false
     }
+
+    public function invitations() // making invitation
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
+    public function hasPendingInvite($email) // pending by email
+    {
+        return (bool)$this->invitations()
+                        ->where('recipient_email', $email)
+                        ->count();
+    }
 }
