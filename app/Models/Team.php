@@ -12,6 +12,22 @@ class Team extends Model
         'slug'
     ];
 
+   // boot function depend on teams to do task on team_member_user
+    protected static function boot()
+    {
+        parent::boot(); // depend on parent model (teams)
+
+        // created, add current user as team member
+        static::created(function($team){
+            $team->members()->attach(auth()->id());
+        });
+
+        // delete on team_user as deleted on teams
+        static::deleting(function($team){
+            $team->members()->sync([]);
+        });
+    }
+
     public function owner()  // team_owner_info
     {
         return $this->belongsTo(User::class, 'owner_id');
