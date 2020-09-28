@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Chats;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ChatResource;
 use App\Repositories\Contracts\IChat;
 use App\Http\Resources\MessageResource;
 use App\Repositories\Contracts\IMessage;
@@ -55,7 +56,9 @@ class ChatController extends Controller
     // Get chats for user
     public function getUserChats()
     {
+        $chats = $this->chats->getUserChats(); // get getUserChats() from chat repository
 
+        return ChatResource::collection($chats);
     }
 
     // get messages for chat

@@ -21,6 +21,8 @@ class ChatRepository extends BaseRepository implements IChat
 
     public function getUserChats()
     {
-
+        return auth()->user()->chats() // user auth
+            ->with(['messages', 'participants']) // message of participants
+            ->get();
     }
 }
