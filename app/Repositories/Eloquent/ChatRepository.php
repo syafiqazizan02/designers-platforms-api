@@ -15,7 +15,8 @@ class ChatRepository extends BaseRepository implements IChat
 
     public function createParticipants($chatId, array $data)
     {
-
+        $chat = $this->model->find($chatId);
+        $chat->participants()->sync($data); // create to recipient table
     }
 
     public function getUserChats()
