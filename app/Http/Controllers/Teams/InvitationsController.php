@@ -79,12 +79,8 @@ class InvitationsController extends Controller
     {
         $invitation = $this->invitations->find($id);  // fetch invitation id
 
-        // authorize user to make invitation
-        if(! auth()->user()->isOwnerOfTeam($invitation->team)){
-            return response()->json([
-                'email' => 'You are not the team owner'
-            ], 401);
-        }
+        // check if the authorize belongs to this user
+        $this->authorize('resend', $invitation);
 
         // find receiver email
         $recipient = $this->users
@@ -94,6 +90,50 @@ class InvitationsController extends Controller
             ->send(new SendInvitationToJoinTeam($invitation, !is_null($recipient)));
 
         return response()->json(['message' => 'Invitation resent'], 200);
+    }
+
+    // 'accept' or 'deny'nvitation function
+    public function respond(Request $request, $id)
+    {
+        $this->validate($request, [
+            'token' => ['required'],
+            'decision' => ['required']
+        ]);
+
+        $token = $request->token;
+        $decision = $request->decision; // 'accept' or 'deny' (string)
+        $invitation = $this->invitations->find($id); // get invitation by id
+
+        // check if the invitation belongs to this user
+        $this->authorize('respond', $invitation);
+
+        // check to make sure that the tokens match
+        if($invitation->token !== $token){
+            return response()->json([
+                'message' => 'Invalid Token'
+            ], 401);
+        }
+
+        // check if accepted
+        if($decision !== 'deny'){
+             $this->invitations->addUserToTeam($invitation->team, auth()->id());
+        }
+
+         $invitation->delete();
+
+         return response()->json(['message' => 'Successful'], 200);
+    }
+
+    public function destroy($id)
+    {
+        $invitation = $this->invitations->find($id);
+
+        // check if the delete authorize user
+        $this->authorize('delete', $invitation);
+
+        $invitation->delete();
+
+        return response()->json(['message' => 'Deleted'], 200);
     }
 
     // function for sending email
