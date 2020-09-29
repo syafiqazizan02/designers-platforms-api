@@ -7,6 +7,7 @@ use App\Exceptions\ModelNotDefined;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -53,6 +54,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // return json expception for incorrect route
+         if($exception instanceof NotFoundHttpException){
+            if($request->expectsJson()){
+                return response()->json(["errors" => [
+                    "message" => "Page not found 404. Incorrect route!"
+                ]], 404);
+            }
+        }
+
         // return json expception for if user not authorize
          if($exception instanceof AuthorizationException){
             if($request->expectsJson()){
