@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Repositories\Eloquent\Criteria\{
     LatestFirst,
     IsLive,
-    // ForUser
+    ForUser,
     EagerLoad
 };
 
@@ -31,7 +31,7 @@ class DesignController extends Controller
         $designs = $this->designs->withCriteria([
             new LatestFirst(),
             new IsLive(),
-            // new ForUser()
+            new ForUser(auth()->id()),
             new EagerLoad(['user', 'comments'])
         ])->all();
 
@@ -50,7 +50,16 @@ class DesignController extends Controller
     public function findDesign($id) // get designs by id
     {
         $design = $this->designs->find($id);
-        
+
+        return new DesignResource($design);
+    }
+
+    public function userOwnsDesign($id) // user get own design
+    {
+        $design = $this->designs->withCriteria(
+            [ new ForUser(auth()->id())]
+        )->findWhereFirst('id', $id);
+
         return new DesignResource($design);
     }
 

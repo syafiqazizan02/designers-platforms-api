@@ -33,6 +33,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     protected $spatialFields = [
         'location',
+        'available_to_hire' => 'boolean'
     ];
 
     /**

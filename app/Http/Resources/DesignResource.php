@@ -39,6 +39,7 @@ class DesignResource extends JsonResource
             ],
             // $this->team ? - check have or not, : null
             'team' => $this->team ? [
+                'id' => $this->team->id,
                 'name' => $this->team->name,
                 'slug' => $this->team->slug
             ] : null,

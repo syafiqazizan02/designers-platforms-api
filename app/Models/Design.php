@@ -25,6 +25,12 @@ class Design extends Model
 
     ];
 
+    protected $casts=[
+        'is_live' => 'boolean',
+        'upload_successful' => 'boolean',
+        'close_to_comments' => 'boolean'
+    ];
+
     // one user one design
     public function user()
     {

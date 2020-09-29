@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:api']], function(){
 
     // Designs
     Route::post('designs', 'Designs\UploadController@upload');
+    Route::get('designs/{id}/byUser', 'Designs\DesignController@userOwnsDesign');
     Route::put('designs/{id}', 'Designs\DesignController@update');
     Route::delete('designs/{id}', 'Designs\DesignController@destroy');
     Route::get('designs/slug/{slug}', 'Designs\DesignController@findBySlug');
