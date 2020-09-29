@@ -53,6 +53,17 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    // protect gravatar image
+    protected $appends=[
+        'photo_url'
+    ];
+
+    // get gravatar images
+    public function getPhotoUrlAttribute()
+    {
+        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg';
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
