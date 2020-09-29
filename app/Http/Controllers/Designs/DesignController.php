@@ -50,6 +50,7 @@ class DesignController extends Controller
     public function findDesign($id) // get designs by id
     {
         $design = $this->designs->find($id);
+        
         return new DesignResource($design);
     }
 
@@ -58,7 +59,15 @@ class DesignController extends Controller
         $designs = $this->designs
                         ->withCriteria([new IsLive()])
                         ->findWhere('team_id', $teamId);
-                        
+
+        return DesignResource::collection($designs);
+    }
+
+    public function getForUser($userId)
+    {
+        $designs = $this->designs
+                        ->withCriteria([new IsLive()])
+                        ->findWhere('user_id', $userId);
         return DesignResource::collection($designs);
     }
 
