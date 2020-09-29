@@ -20,6 +20,7 @@ Route::get('designs/{id}', 'Designs\DesignController@findDesign');
 
 // Get users
 Route::get('users', 'User\UserController@index');
+Route::get('user/{username}', 'User\UserController@findByUsername');
 Route::get('users/{id}/designs', 'Designs\DesignController@getForUser');
 
 // Get teams
