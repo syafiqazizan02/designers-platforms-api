@@ -92,6 +92,15 @@ class TeamsController extends Controller
     }
 
     /**
+     * Get team by slug for Public view
+     */
+    public function findBySlug($slug)
+    {
+        $team = $this->teams->findWhereFirst('slug', $slug);
+        return new TeamResource($team);
+    }
+
+    /**
     * Destroy (delete) a team
     */
     public function destroy($id)
