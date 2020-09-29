@@ -23,6 +23,7 @@ Route::get('users', 'User\UserController@index');
 
 // Get teams
 Route::get('teams/slug/{slug}', 'Teams\TeamsController@findBySlug');
+Route::get('teams/{id}/designs', 'Designs\DesignController@getForTeam');
 
 // Route for authenticated users only
 Route::group(['middleware' => ['auth:api']], function(){
