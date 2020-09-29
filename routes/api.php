@@ -63,6 +63,10 @@ Route::group(['middleware' => ['auth:api']], function(){
      Route::get('chats/{id}/messages', 'Chats\ChatController@getChatMessages');
      Route::put('chats/{id}/markAsRead', 'Chats\ChatController@markAsRead');
      Route::delete('messages/{id}', 'Chats\ChatController@destroyMessage');
+
+    // Search
+    Route::get('search/designs', 'Designs\DesignController@search');
+    Route::get('search/designers', 'User\UserController@search');
 });
 
 // Routes for guests users only

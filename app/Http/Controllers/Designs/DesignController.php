@@ -94,6 +94,13 @@ class DesignController extends Controller
         return response()->json(['message' => 'Record deleted'], 200);
     }
 
+    public function search(Request $request)
+    {
+        $designs = $this->designs->search($request);
+        
+        return DesignResource::collection($designs);
+    }
+
     // for a single likes
     public function like($id)
     {
