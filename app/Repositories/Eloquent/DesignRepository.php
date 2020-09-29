@@ -42,6 +42,8 @@ class DesignRepository extends BaseRepository implements IDesign
         } else {
             $design->like(); // find from likeable like()
         }
+
+        return $design->likes()->count();
     }
 
     // authenicate from model
@@ -82,6 +84,6 @@ class DesignRepository extends BaseRepository implements IDesign
             $query->latest();
         }
 
-        return $query->get();
+        return $query->with('user')->get();
     }
 }

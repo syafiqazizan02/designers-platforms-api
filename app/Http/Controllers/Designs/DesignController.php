@@ -41,7 +41,10 @@ class DesignController extends Controller
     public function findBySlug($slug)
     {
         $design = $this->designs
-                        ->withCriteria([new IsLive()])
+                        ->withCriteria([
+                            new IsLive(),
+                            new EagerLoad(['user', 'comments'])
+                        ])
                         ->findWhereFirst('slug', $slug);
 
         return new DesignResource($design);
@@ -66,7 +69,7 @@ class DesignController extends Controller
     public function getForTeam($teamId) //get a design for a team
     {
         $designs = $this->designs
-                        ->withCriteria([new IsLive()])
+                        // ->withCriteria([new IsLive()])
                         ->findWhere('team_id', $teamId);
 
         return DesignResource::collection($designs);
@@ -140,8 +143,12 @@ class DesignController extends Controller
     // for a single likes
     public function like($id)
     {
-        $this->designs->like($id);
-        return response()->json(['message' => 'Successful'], 200);
+        $total = $this->designs->like($id);
+
+        return response()->json([
+            'message' => 'Successful',
+            'total' => $total
+        ], 200);
     }
 
     // check if user already likes
