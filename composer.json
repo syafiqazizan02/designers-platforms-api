@@ -16,6 +16,7 @@
         "intervention/image": "^2.5",
         "laravel/framework": "^6.18.35",
         "laravel/tinker": "^2.0",
+        "lcobucci/jwt": "3.3.3",
         "league/flysystem-aws-s3-v3": "^1.0",
         "tymon/jwt-auth": "^1.0"
     },
