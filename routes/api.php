@@ -11,6 +11,10 @@
 |
 */
 
+//Route::get('/', function(){
+//    return response()->json(['message' => 'Hello World!'], 200);
+//});
+
 // Public routes
 Route::get('me', 'User\MeController@getMe');
 

@@ -65,7 +65,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    // Register Succes Response
+    // Success Register Response
     protected function registered(Request $request, User $user)
     {
         return response()->json($user, 200);

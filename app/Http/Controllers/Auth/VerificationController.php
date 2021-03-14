@@ -32,7 +32,7 @@ class VerificationController extends Controller
 
     public function __construct(IUser $users)
     {
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->middleware('throttle:6,1')->only('verify', 'resend'); // count how many request resend
 
         $this->users = $users;
     }

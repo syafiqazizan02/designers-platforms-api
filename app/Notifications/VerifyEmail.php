@@ -10,6 +10,7 @@ class VerifyEmail extends Notification
 {
   protected function verificationUrl($notifiable)
   {
+      // access .ENV file
       $appUrl = config('app.client_url', config('app.url'));
 
       $url = URL::temporarySignedRoute(
@@ -18,7 +19,6 @@ class VerifyEmail extends Notification
           ['user' => $notifiable->id]
       );
 
-      // http://dribbbleclone.test/api/
       return str_replace(url('/api'), $appUrl, $url);
   }
 }
