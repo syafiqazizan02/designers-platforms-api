@@ -28,7 +28,7 @@ class UserRepository extends BaseRepository implements IUser
 
         // only designers who have designs
         if($request->has_designs){
-            $query->has('designs');
+            $query->has('designs'); // has('designs') relation in UserModel
         }
 
         // check for available_to_hire
@@ -42,6 +42,7 @@ class UserRepository extends BaseRepository implements IUser
         $dist = $request->distance;
         $unit = $request->unit;
 
+        // convert to point types to km
         if($lat && $lng){
             $point = new Point($lat, $lng);
             $unit == 'km' ? $dist *= 1000 : $dist *=1609.34;

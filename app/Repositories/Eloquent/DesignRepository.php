@@ -56,21 +56,24 @@ class DesignRepository extends BaseRepository implements IDesign
     public function search(Request $request)
     {
         $query = (new $this->model)->newQuery();
+
+        // filter designs that is_live
         $query->where('is_live', true);
 
         // return only designs with comments
         if($request->has_comments){
-            $query->has('comments');
+            $query->has('comments'); // has('comments') relation in DesignModel
         }
 
         // return only designs assigned to teams
         if($request->has_team){
-            $query->has('team');
+            $query->has('team'); // has('team') relation in DesignModel
         }
 
         // search title and description for provided string
         if($request->q){
             $query->where(function($q) use ($request){
+                // between title or description
                 $q->where('title', 'like', '%'.$request->q.'%')
                     ->orWhere('description', 'like', '%'.$request->q.'%');
             });

@@ -28,7 +28,7 @@ class Team extends Model
         });
     }
 
-    public function owner()  // team_owner_info
+    public function owner() // team_owner_info
     {
         return $this->belongsTo(User::class, 'owner_id');
     }

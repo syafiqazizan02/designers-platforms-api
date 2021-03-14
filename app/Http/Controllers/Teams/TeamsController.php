@@ -85,7 +85,7 @@ class TeamsController extends Controller
     /**
     * Get the teams that the current user belongs to
     */
-    public function fetchUserTeams()
+    public function fetchUserTeams() // get current user belongs to
     {
         $teams = $this->teams->fetchUserTeams();
         return TeamResource::collection($teams);
