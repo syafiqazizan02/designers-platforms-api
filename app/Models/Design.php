@@ -22,7 +22,6 @@ class Design extends Model
         'is_live',
         'upload_successful',
         'disk'
-
     ];
 
     protected $casts=[
@@ -49,7 +48,7 @@ class Design extends Model
         return $this->belongsTo(Team::class);
     }
 
-    public function getImagesAttribute() // image slugs
+    public function getImagesAttribute() // images links (thumbnail/large/original) - DesignResources
     {
         return [
             'thumbnail' => $this->getImagePath('thumbnail'),

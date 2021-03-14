@@ -18,10 +18,10 @@ class DesignResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => new UserResource($this->user), // check/get form user resources (combine user api response to design)
+            'user' => new UserResource($this->user), // get form user resources (combine user api response to design)
             'title' => $this->title,
             'slug' => $this->slug,
-            'images' => $this->images,
+            'images' => $this->images, // images
             'is_live' => $this->is_live,
             'likes_count' => $this->likes()->count(),
             'description' => $this->description,

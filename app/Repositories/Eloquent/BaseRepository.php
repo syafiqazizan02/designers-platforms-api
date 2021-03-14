@@ -13,7 +13,7 @@ abstract class BaseRepository implements IBase, ICriteria
 
     public function __construct()
     {
-        $this->model = $this->getModelClass(); // override getmodels
+        $this->model = $this->getModelClass(); // override getmModels
     }
 
     public function all() // get all data
@@ -32,7 +32,7 @@ abstract class BaseRepository implements IBase, ICriteria
         return $this->model->where($column, $value)->get();
     }
 
-    public function findWhereFirst($column, $value) // finr first condition
+    public function findWhereFirst($column, $value) // find first condition
     {
         return $this->model->where($column, $value)->firstOrFail();
     }

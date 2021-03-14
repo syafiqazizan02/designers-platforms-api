@@ -27,7 +27,7 @@ class DesignController extends Controller
 
     public function index() // get all from design database return to resource collection
     {
-        // group by cateria function
+        // group by criteria function
         $designs = $this->designs->withCriteria([
             new LatestFirst(),
             new IsLive(),
@@ -109,7 +109,7 @@ class DesignController extends Controller
         // apply the tags
         $this->designs->applyTags($id, $request->tags);
 
-        return new DesignResource($design); // retturn custom @ selected response (attribute)
+        return new DesignResource($design); // return custom @ selected response (attribute)
     }
 
     public function destroy($id)

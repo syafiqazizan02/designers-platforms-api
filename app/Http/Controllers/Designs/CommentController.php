@@ -36,7 +36,7 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
         $comment = $this->comments->find($id);
-        $this->authorize('update', $comment); // refer update() on commnet policy
+        $this->authorize('update', $comment); // refer update() on comment policy
 
         $this->validate($request, [
             'body' => ['required']
@@ -53,11 +53,11 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = $this->comments->find($id);
-        $this->authorize('delete', $comment); // refer delete() on commnet policy
+        $this->authorize('delete', $comment); // refer delete() on comment policy
 
         // refer delete() IBase
         $this->comments->delete($id);
-        
+
         return response()->json(['message' => 'Item deleted'], 200);
     }
 }

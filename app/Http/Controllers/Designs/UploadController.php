@@ -23,7 +23,7 @@ class UploadController extends Controller
             'image' => ['required', 'mimes:jpeg,gif,bmp,png', 'max:2048']
         ]);
 
-        // get the image
+        // get the image form request + path
         $image = $request->file('image');
         $image_path = $image->getPathName();
 
