@@ -42,14 +42,14 @@ class VerificationController extends Controller
         // check if the url is a valid signed url
         if(! URL::hasValidSignature($request)){
             return response()->json(["errors" => [
-                "message" => "Invalid verification link or signature"
+                "message" => "Invalid verification link or signature!"
             ]], 422);
         }
 
         // check if the user has already verified account
         if($user->hasVerifiedEmail()){
             return response()->json(["errors" => [
-                "message" => "Email address already verified"
+                "message" => "Email address already verified!"
             ]], 422);
         }
 
@@ -58,7 +58,7 @@ class VerificationController extends Controller
         event(new Verified($user));
 
         return response()->json([
-            "message" => "Email successfully verified"
+            "message" => "Email successfully verified!"
         ], 200);
     }
 
@@ -74,14 +74,14 @@ class VerificationController extends Controller
         // no user with the email
         if(! $user){
             return response()->json(["errors" => [
-                "email" => "No user could be found with this email address"
+                "email" => "No user could be found with this email address!"
             ]], 422);
         }
 
         // already verified the email
         if($user->hasVerifiedEmail()){
             return response()->json(["errors" => [
-                "message" => "Email address already verified"
+                "message" => "Email address already verified!"
             ]], 422);
         }
 
@@ -89,7 +89,7 @@ class VerificationController extends Controller
         $user->sendEmailVerificationNotification();
 
         return response()->json([
-            "message" => "Verification link resent"
+            "message" => "Verification link resent!"
         ], 200);
     }
 }

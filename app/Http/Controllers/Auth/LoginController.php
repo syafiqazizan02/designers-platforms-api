@@ -71,12 +71,12 @@ class LoginController extends Controller
         // if not verify email yet
         if($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()){
             return response()->json(["errors" => [
-                "message" => "You need to verify your email account"
+                "message" => "You need to verify your email account!"
             ]],422);
         }
 
         throw ValidationException::withMessages([
-            $this->username() => "Invalid credentials"
+            $this->username() => "Invalid credentials!"
         ]);
     }
 
